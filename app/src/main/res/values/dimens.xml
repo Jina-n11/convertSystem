@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="largeSpace">24dp</dimen>
+    <dimen name="normalSpace">12dp</dimen>
+    <dimen name="sizeTextLarge">20sp</dimen>
+    <dimen name="smallSpace">8dp</dimen>
+    <dimen name="sizeTextBody">12sp</dimen>
+    <dimen name="smallRadius">8dp</dimen>
+</resources>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:padding="@dimen/largeSpace">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/input"
+            android:layout_width="0dp"
+            android:layout_weight="1.1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_with_radius"
+            android:paddingHorizontal="@dimen/normalSpace"
+            android:paddingVertical="@dimen/normalSpace"
+            android:layout_marginEnd="@dimen/smallSpace"
+            android:hint="@string/inputValue"
+            android:gravity="start"
+            android:lines="1"
+            android:maxLines="1"
+            android:maxLength="6"
+            android:textCursorDrawable ="@drawable/background_with_radius" />
+
+
+        <Spinner
+            android:id="@+id/systemSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingVertical="@dimen/largeSpace" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/largeSpace"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="@dimen/normalSpace"
+            android:layout_marginEnd="@dimen/normalSpace"
+            android:background="@drawable/background_with_radius">
+
+            <TextView
+                android:id="@+id/binaryValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fakeBinaryValue"
+                android:textSize="@dimen/sizeTextLarge"
+                android:textFontWeight="700"
+                android:layout_gravity="center"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/binary"
+                android:paddingTop="@dimen/smallSpace"
+                android:textSize="@dimen/sizeTextBody"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="@dimen/normalSpace"
+            android:background="@drawable/background_with_radius">
+
+            <TextView
+                android:id="@+id/octalValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fakeOctalValue"
+                android:textSize="@dimen/sizeTextLarge"
+                android:textFontWeight="700"
+                android:layout_gravity="center"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/octal"
+                android:paddingTop="@dimen/smallSpace"
+                android:textSize="@dimen/sizeTextBody"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/normalSpace"
+        android:paddingBottom="@dimen/largeSpace"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="@dimen/normalSpace"
+            android:layout_marginEnd="@dimen/normalSpace"
+            android:background="@drawable/background_with_radius">
+
+            <TextView
+                android:id="@+id/decimalValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fakeDecimalValue"
+                android:textSize="@dimen/sizeTextLarge"
+                android:textFontWeight="700"
+                android:layout_gravity="center"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/decimal"
+                android:paddingTop="@dimen/smallSpace"
+                android:textSize="@dimen/sizeTextBody"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="@dimen/normalSpace"
+            android:background="@drawable/background_with_radius">
+
+            <TextView
+                android:id="@+id/hexaDecimalValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fakeHexaDecimalValue"
+                android:textSize="@dimen/sizeTextLarge"
+                android:textFontWeight="700"
+                android:layout_gravity="center"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hexaDecimal"
+                android:paddingTop="8dp"
+                android:textSize="12sp"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+
+    <Button
+        android:id="@+id/convertButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/normalSpace"
+        android:paddingBottom="@dimen/normalSpace"
+        android:text="@string/convertTitleButton"
+        android:visibility="invisible"
+        android:background="@drawable/background_button_with_radius"
+        style="@style/Widget.MaterialComponents.Button" />
+
+
+</LinearLayout>
