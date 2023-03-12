@@ -22,84 +22,71 @@ import com.example.convertapp.util.showDialog
 
 class MainActivity() : AppCompatActivity() {
 
-    private lateinit var input: EditText
-    private lateinit var binaryValue: TextView
-    private lateinit var octalValue: TextView
-    private lateinit var decimalValue: TextView
-    private lateinit var hexaDecimalValue: TextView
+    private lateinit var inputEditText: EditText
+    private lateinit var binaryTextView: TextView
+    private lateinit var octalTextView: TextView
+    private lateinit var decimalTextView: TextView
+    private lateinit var hexadecimalTextView: TextView
     private lateinit var convertButton: Button
-    private lateinit var systemSpinner :Spinner
+    private lateinit var numberSystemSpinner :Spinner
 
-    private val systemTypes = listOf(
-        SystemNumber.DECIMAL,
-        SystemNumber.BINARY,
-        SystemNumber.OCTAL ,
-        SystemNumber.HEXADECIMAL,
-    )
-
-    private var selectedSystemType : String = SystemNumber.DECIMAL.name
+    private var selectedNumberSystemType : String = SystemNumber.DECIMAL.name
     private lateinit var systemNumberModel :SystemNumberModel
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setUp()
+        initViews()
         addCallbacks()
     }
 
-     fun setUp() {
-        initView()
-        addSystemType(systemTypes)
-    }
-
-    private fun initView() {
-        input = findViewById(R.id.input)
-        binaryValue = findViewById(R.id.binaryValue)
-        octalValue = findViewById(R.id.octalValue)
-        decimalValue = findViewById(R.id.decimalValue)
-        hexaDecimalValue = findViewById(R.id.hexaDecimalValue)
+    private fun initViews() {
+        inputEditText = findViewById(R.id.input)
+        binaryTextView = findViewById(R.id.binaryValue)
+        octalTextView = findViewById(R.id.octalValue)
+        decimalTextView = findViewById(R.id.decimalValue)
+        hexadecimalTextView = findViewById(R.id.hexaDecimalValue)
         convertButton = findViewById(R.id.convertButton)
-        systemSpinner = findViewById(R.id.systemSpinner)
+        numberSystemSpinner = findViewById(R.id.systemSpinner)
 
+        setUpSpinnerAdapter()
     }
 
-    private fun addSystemType(systemTypes: List<SystemNumber>) {
+    private fun setUpSpinnerAdapter() {
         val adapter = ArrayAdapter(this,
             android.R.layout.simple_spinner_item,
-            systemTypes
+            SystemNumber.values()
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        systemSpinner.adapter = adapter
+        numberSystemSpinner.adapter = adapter
     }
 
 
-     fun addCallbacks() {
-        onInputAdd()
-        onChooseItemFromSystemType()
-        onClickConvertButton()
+     private fun addCallbacks() {
+         setEditTextListener()
+         onChooseItemFromSystemNumberType()
+         onClickConvertButton()
     }
 
-    private fun onChooseItemFromSystemType() {
-        systemSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener
+    private fun onChooseItemFromSystemNumberType() {
+        numberSystemSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener
         {
             override fun onItemSelected(
                 parent: AdapterView<*>,
                 view: View?,
                 position: Int,
                 id: Long , ) {
-                selectedSystemType = parent.getItemAtPosition(position).toString()
+                selectedNumberSystemType = parent.getItemAtPosition(position).toString()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
-
     }
 
 
-    private fun onInputAdd() = input.addTextChangedListener( object : TextWatcher
+    private fun setEditTextListener() = inputEditText.addTextChangedListener( object : TextWatcher
     {
         override fun afterTextChanged(s: Editable) {}
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -120,22 +107,21 @@ class MainActivity() : AppCompatActivity() {
 
     private fun onClickConvertButton() = convertButton.setOnClickListener {
 
-        val number = input.text.toString()
-        val base = checkSystemBase(systemType = selectedSystemType)
-        val checkedSystemInput = checkSystemInput(systemType = selectedSystemType , number = number)
+        val number = inputEditText.text.toString()
+        val base = checkSystemBase(systemType = selectedNumberSystemType)
+        val checkedSystemInput = validateInputSystemNumber(systemType = selectedNumberSystemType , number = number)
 
 
-        if (base != NOT_HAVE_BASE && checkedSystemInput){
+        if (base != 0 && checkedSystemInput){
 
             systemNumberModel = SystemNumberModel()
-            convertToBinary(number= number , base= base ,)
-            convertToSystemNumber()
-            viewData(systemNumberModel)
+            systemNumberModel.convertToBinary(number= number , base= base ,)
+            systemNumberModel.convertToSystemNumber()
+            updateTextViewState(systemNumberModel)
 
         } else {
-            showDialog(title= getString(R.string.title ,) ,
-                message = getString(R.string.message) + selectedSystemType ,
-            context = this ,)
+            this.showDialog(title= getString(R.string.title ,) ,
+                message = getString(R.string.message) + selectedNumberSystemType ,)
         }
     }
 
@@ -164,20 +150,20 @@ class MainActivity() : AppCompatActivity() {
 
 
 
-    private fun checkSystemInput(systemType: String , number: String): Boolean {
+    private fun validateInputSystemNumber(systemType: String , number: String): Boolean {
 
         return when(systemType){
             SystemNumber.HEXADECIMAL.name -> {
-                checkedInput(number = number , range = HEXADECIMAL_RANGE)
+                validateInput(number = number , range = HEXADECIMAL_RANGE)
             }
             SystemNumber.BINARY.name -> {
-                checkedInput(number = number , range = BINARY_RANGE,)
+                validateInput(number = number , range = BINARY_RANGE,)
             }
             SystemNumber.OCTAL.name -> {
-                checkedInput(number = number , range = OCTAL_RANGE,)
+                validateInput(number = number , range = OCTAL_RANGE,)
             }
             SystemNumber.DECIMAL.name -> {
-                checkedInput(number = number , range = DECIMAL_RANGE ,)
+                validateInput(number = number , range = DECIMAL_RANGE ,)
             }
             else ->{
                 false
@@ -186,7 +172,7 @@ class MainActivity() : AppCompatActivity() {
     }
 
 
-    private fun checkedInput(number: String , range : List<String>) : Boolean {
+    private fun validateInput(number: String , range : List<String>) : Boolean {
         var flag = false
         for (digit in number.map { it.toString() }) {
              when (digit) {
@@ -199,23 +185,14 @@ class MainActivity() : AppCompatActivity() {
     }
 
 
-    private fun convertToBinary(number: String, base: Int) {
-        systemNumberModel.convertToBinary(number= number , base= base ,)
-    }
 
-    private fun convertToSystemNumber() {
-        systemNumberModel.convertToSystemNumber()
-    }
-
-
-    private fun viewData(systemNumberModel: SystemNumberModel) {
+    private fun updateTextViewState(systemNumberModel: SystemNumberModel) {
         systemNumberModel.apply {
-            binaryValue.text = this.binary
-            octalValue.text = this.octal
-            decimalValue.text = this.decimal
-            hexaDecimalValue.text = this.hexadecimal
+            binaryTextView.text = this.binary
+            octalTextView.text = this.octal
+            decimalTextView.text = this.decimal
+            hexadecimalTextView.text = this.hexadecimal
         }
     }
-
 
 }

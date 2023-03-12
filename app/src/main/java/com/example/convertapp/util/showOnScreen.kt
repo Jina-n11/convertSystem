@@ -5,8 +5,8 @@ import com.example.convertapp.util.Constant.OK
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
- fun showDialog(message:String , title : String , context : MainActivity){
-    MaterialAlertDialogBuilder(context)
+ fun MainActivity.showDialog(message:String , title : String ){
+    MaterialAlertDialogBuilder(this)
         .setTitle(title)
         .setMessage(message)
         .setNeutralButton(OK) { dialog, which ->
